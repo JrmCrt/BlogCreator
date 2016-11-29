@@ -58,7 +58,7 @@ return [
             'port' => env('DB_PORT', '3306'),
             'database' => 'blogCreator',
             'username' => 'root',
-            'password' => 'pass',
+            'password' => 'password',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

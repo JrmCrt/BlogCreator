@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 02 Décembre 2016 à 11:44
+-- Généré le :  Ven 09 Décembre 2016 à 12:28
 -- Version du serveur :  5.6.31-0ubuntu0.15.10.1
 -- Version de PHP :  5.6.11-1ubuntu3.4
 
@@ -143,7 +143,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `users`
+--
+
+INSERT INTO `users` (`id`, `mail`, `password`, `updated_at`, `created_at`) VALUES
+(1, 'jerome1.crete@epitech.eu', 'pass', '2016-12-09 00:00:00', '2016-12-09 00:00:00');
 
 --
 -- Index pour les tables exportées
@@ -153,17 +160,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Index pour la table `articles`
 --
 ALTER TABLE `articles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `articles_fk0` (`id_blog`),
-  ADD KEY `articles_fk1` (`id_category`),
-  ADD KEY `articles_fk2` (`id_author`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `blogs`
 --
 ALTER TABLE `blogs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `blogs_fk0` (`id_author`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `categories`
@@ -175,33 +178,25 @@ ALTER TABLE `categories`
 -- Index pour la table `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `comments_fk0` (`id_article`),
-  ADD KEY `comments_fk1` (`id_user`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `friends`
 --
 ALTER TABLE `friends`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `friends_fk0` (`id_user1`),
-  ADD KEY `friends_fk1` (`id_user2`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `messages_fk0` (`id_sender`),
-  ADD KEY `messages_fk1` (`id_recipient`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `sharedArticles`
 --
 ALTER TABLE `sharedArticles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sharedArticles_fk0` (`id_article`),
-  ADD KEY `sharedArticles_fk1` (`id_blog`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `users`
@@ -210,51 +205,49 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Contraintes pour les tables exportées
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
--- Contraintes pour la table `articles`
+-- AUTO_INCREMENT pour la table `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `articles_fk0` FOREIGN KEY (`id_blog`) REFERENCES `blogs` (`id`),
-  ADD CONSTRAINT `articles_fk1` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `articles_fk2` FOREIGN KEY (`id_author`) REFERENCES `users` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour la table `blogs`
+-- AUTO_INCREMENT pour la table `blogs`
 --
 ALTER TABLE `blogs`
-  ADD CONSTRAINT `blogs_fk0` FOREIGN KEY (`id_author`) REFERENCES `users` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour la table `comments`
+-- AUTO_INCREMENT pour la table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_fk0` FOREIGN KEY (`id_article`) REFERENCES `articles` (`id`),
-  ADD CONSTRAINT `comments_fk1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour la table `friends`
+-- AUTO_INCREMENT pour la table `friends`
 --
 ALTER TABLE `friends`
-  ADD CONSTRAINT `friends_fk0` FOREIGN KEY (`id_user1`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `friends_fk1` FOREIGN KEY (`id_user2`) REFERENCES `users` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour la table `messages`
+-- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_fk0` FOREIGN KEY (`id_sender`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `messages_fk1` FOREIGN KEY (`id_recipient`) REFERENCES `users` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour la table `sharedArticles`
+-- AUTO_INCREMENT pour la table `sharedArticles`
 --
 ALTER TABLE `sharedArticles`
-  ADD CONSTRAINT `sharedArticles_fk0` FOREIGN KEY (`id_article`) REFERENCES `articles` (`id`),
-  ADD CONSTRAINT `sharedArticles_fk1` FOREIGN KEY (`id_blog`) REFERENCES `blogs` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

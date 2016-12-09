@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Blog;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $blogs = Blog::where('id_author', Auth::id())
+               ->orderBy('created_at', 'asc')
+               ->get();
+        //var_dump($blogs);
+
+        return view('home', ['wall' => 'wall']);
     }
 }

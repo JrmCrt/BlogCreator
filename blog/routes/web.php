@@ -21,3 +21,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/blog/new', 'BlogController@index');
 Route::post('/blog/new', 'BlogController@newBlog');
+
+
+Route::get('profile/{id}', 'UserController@profile');
+Route::post('profile/{id}', 'UserController@updateProfile');

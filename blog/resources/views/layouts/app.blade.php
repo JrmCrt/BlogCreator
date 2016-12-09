@@ -56,19 +56,26 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    My Blogs <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">    
+                                @foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $blog)
+                                    <li>
+                                        <a href="{{ url('/blog/'.$blog->id.'') }}"/>{{$blog->title}}</a>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     Blog <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="{{ url('/blog/new') }}"/>
-                                            New
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('/blog/manage') }}"/>
-                                            Manage
-                                        </a>
+                                        <a href="{{ url('/blog/new') }}"/>New</a>
                                     </li>
                                 </ul>
                             </li>
@@ -89,6 +96,9 @@
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('profile/'.Auth::id().'') }}"/>Profile</a>
                                     </li>
                                 </ul>
                             </li>

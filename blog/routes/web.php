@@ -19,3 +19,5 @@ Route::get('/', 'IndexController@home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/blog/new', 'BlogController@index');
+Route::post('/blog/new', 'BlogController@newBlog');

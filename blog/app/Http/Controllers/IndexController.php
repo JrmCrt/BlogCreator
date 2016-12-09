@@ -15,4 +15,9 @@ class IndexController extends Controller
     {	
     	return redirect('home');
     }
+
+    public function index()
+    {
+    	var_dump('dsqdqs');
+    }
 }

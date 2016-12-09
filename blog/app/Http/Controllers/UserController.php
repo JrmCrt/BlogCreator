@@ -30,6 +30,8 @@ class UserController extends Controller
         $user = User::find($id);
         $user->name = Input::get('name');
         $user->email = Input::get('email');
+        if(!empty(Input::get('password'))) 
+            $user->password = bcrypt(Input::get('password'));
         $user->save();
         return view('profile', ['user' => $user, 'info' => 'User updated']);
     }   

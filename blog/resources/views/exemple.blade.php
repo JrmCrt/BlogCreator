@@ -2,4 +2,4 @@
 
 @section('content')
   <hi>exemple</hi>
-@stop
+@endsection

@@ -13,7 +13,6 @@ class IndexController extends Controller
 {
     public function home()
     {	
-    	//var_dump($user = User::find(1));
-    	return view('exemple' ,[]);
+    	return redirect('home');
     }
 }

@@ -26,8 +26,6 @@ class BlogController extends Controller
 
     public function newBlog()
     {	
-    	var_dump(Input::all());
-
     	$blog =  new Blog;
     	$blog->title = Input::get('title');
     	$blog->description = Input::get('description');
@@ -40,8 +38,8 @@ class BlogController extends Controller
 			$blog->banner = $fName;
     	}
 
-    	//var_dump($blog); 
-    	$user = Auth::id();
-    	return view('newblog', []);
+    	$blog->id_author = Auth::id();
+    	$blog->save();
+    	return view('newblog', ['info' => 'New blog created']);
     }
 }

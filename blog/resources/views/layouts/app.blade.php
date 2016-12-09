@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('dist/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -103,5 +104,7 @@
 
     <!-- Scripts -->
     <script src="{{ URL::asset('js/app.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="{{ URL::asset('dist/js/bootstrap.min.js')}}" rel="stylesheet">
 </body>
 </html>

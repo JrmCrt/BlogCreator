@@ -10,6 +10,7 @@ use App\User;
 use App\Category;
 use Input;
 use App\Blog;
+use App\Friend;
 use Auth;
 
 class UserController extends Controller
@@ -22,7 +23,14 @@ class UserController extends Controller
     public function profile($id)
     {
         $user = User::find($id);
-        return view('profile', ['user' => $user]);
+        $isFriend = false;
+        if($user){
+            $check = Friend::where('id_user1', Auth::id() )->where('id_user2', $user->id )->get();
+            $check2 = Friend::where('id_user2', Auth::id() )->where('id_user1', $user->id )->get();
+            if(count($check) || count($check2))
+                $isFriend = true;
+        }
+        return view('profile', ['user' => $user, 'isFriend' => $isFriend]);
     }
 
     public function updateProfile($id)

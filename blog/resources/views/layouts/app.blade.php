@@ -18,7 +18,7 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-        ]); ?>
+            ]); ?>
     </script>
 </head>
 <body>
@@ -51,70 +51,93 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    My Blogs <span class="caret"></span>
-                                </a>
+                        <a href="{{ url('/friend/list') }}"><button class="btn btn-primary navbar-btn"><i class="fa fa-users" aria-hidden="true"></i> Friends</button></a>
 
-                                <ul class="dropdown-menu" role="menu">    
-                                @foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $blog)
-                                    <li>
-                                        <a href="{{ url('/blog/'.$blog->id.'') }}"/>{{$blog->title}}</a>
-                                    </li>
+                        <a href="{{ url('/message/list') }}"><button class="btn btn-danger navbar-btn"><i class="fa fa-envelope" aria-hidden="true"></i> Messages</button></a>
+
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-book" aria-hidden="true"></i> My Blogs  <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">    
+                                @foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $b)
+                                <li>
+                                    <a href="{{ url('/'.$b->id) }}"/>{{$b->title}}</a>
+                                </li>
                                 @endforeach
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Blog <span class="caret"></span>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-file-text" aria-hidden="true"></i> Blog <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ url('/blog/new') }}"/><i class="fa fa-plus" aria-hidden="true"></i> New</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true"></i> {{ ucfirst(Auth::user()->name) }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ url('profile/'.Auth::id().'') }}"/><i class="fa fa-user-circle" aria-hidden="true"></i> Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/logout') }}"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
                                 </a>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/blog/new') }}"/>New</a>
-                                    </li>
-                                </ul>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
+                        </ul>
+                    </li>
 
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ ucfirst(Auth::user()->name) }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url('profile/'.Auth::id().'') }}"/>Profile</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                        @endif
-                    </ul>
-                </div>
+                    @endif
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
+    @if(isset($blog) && $blog->id_author == Auth::id()){{--if this is out blog...add blog menu --}}
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Blog menu</a>
+      </div>
+      <ul class="nav navbar-nav">
+          <li><a href="#">Page 1</a></li>
+          <li><a href="#">Page 2</a></li>
+          <li><a href="#">Page 3</a></li>
+      </ul>
+  </div>
+</nav>
+@endif
+@yield('content')
+</div>
 
-        @yield('content')
-    </div>
+<!-- Scripts -->
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> --}}
+<script src="{{ URL::asset('js/jquery.js')}}"></script>
+<script src="{{ URL::asset('js/app.js')}}"></script>
+{{-- <script src="{{ URL::asset('dist/js/bootstrap.min.js')}}"></script> --}}
+{{-- <script src="https://use.fontawesome.com/d5b4247fd9.js"></script> --}}
+<script src="{{ URL::asset('js/fontawesome.js')}}"></script>
 
-    <!-- Scripts -->
-    <script src="{{ URL::asset('js/app.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link href="{{ URL::asset('dist/js/bootstrap.min.js')}}" rel="stylesheet">
 </body>
 </html>

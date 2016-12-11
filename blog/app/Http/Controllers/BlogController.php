@@ -42,4 +42,10 @@ class BlogController extends Controller
     	$blog->save();
     	return view('newblog', ['info' => 'New blog created']);
     }
+
+    public function blog($id)
+    {
+    	$blog = Blog::find($id);
+    	return view('blog', ['blog' => $blog]);
+    }
 }

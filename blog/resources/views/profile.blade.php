@@ -3,7 +3,7 @@
 @section('content')
 
 @if(isset($info))
-    <div class="alert alert-success alert-dismissible fade in" role="alert">
+    <div class="alert alert-success alert-dismissible fade in text-center" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -18,19 +18,25 @@
                 <div class="panel-heading">Profile</div>
                 <div class="panel-body">
                 @if(isset($user))
-                    @if($user->id != Auth::id())
+                    @if($user->id != Auth::id()){{-- not out profile --}}
                     <div class="panel-body">
                         <p><strong>Name : </strong>{{ $user->name }}</p>
                         <p><strong>Email : </strong>{{ $user->email }}</p>
                         <p><strong>Blogs : </strong>
-                        @foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $blog)
-                                            <a href="{{ url('/blog/'.$blog->id.'') }}"/>{{$blog->title}}</a>   
+                        @foreach (App\Blog::where('id_author', $user->id)->orderBy('created_at', 'asc')->get() as $b)
+                                            <a href="{{ url('/'.$b->id.'') }}"/>{{$b->title}}</a>   
                         @endforeach
                         </p>
 
-                        <a href="{{ url('/message/send/'.$user->id.'') }}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-envelope"></span> Contact</a>
+                        <a href="{{ url('/message/send/'.$user->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact</a>
+
+                        <?php if(!$isFriend): ?>
+                        <a href="{{ url('/friend/add/'.$user->id.'') }}" class="btn btn-warning" role="button"><i class="fa fa-user-plus" aria-hidden="true"></i> Friend</a>
+                        <?php else: ?>
+                        <a href="{{ url('/friend/remove/'.$user->id.'') }}" class="btn btn-danger" role="button"><i class="fa fa-user-times" aria-hidden="true"></i> Unfriend</a>
+                        <?php endif; ?>
                     </div>
-                    @else
+                    @else {{-- our profile --}}
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/profile/'. Auth::id().'') }} " >
                       {{ csrf_field() }}

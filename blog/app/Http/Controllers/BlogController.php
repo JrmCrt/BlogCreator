@@ -13,6 +13,8 @@ use App\Blog;
 use Auth;
 use App\SharedBlog;
 use App\Article;
+use App\Comment;
+use DB;
 
 class BlogController extends Controller
 {
@@ -78,5 +80,22 @@ class BlogController extends Controller
     		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
     		'info' => 'Blog unfollowed',
     		'articles' => $articles]);
+    }
+
+    public function comment($id)
+    {	
+    	$comments = DB::table('comments')
+            ->join('articles', 'articles.id', '=', 'comments.id_article')
+            ->select('*', 'comments.content as commentContent', 'comments.id as id_comment')
+            ->where('id_blog', $id)
+            ->get();
+    	return view('comments', ['comments' => $comments]);
+    }
+
+    public function removeComment($id)
+    {	
+    	$comment = Comment::find($id);
+    	$comment->destroy($comment->id);
+    	return view('home', ['info' => 'Comment removed']);
     }
 }

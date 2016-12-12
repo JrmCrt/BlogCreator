@@ -20,7 +20,7 @@
                    <form class="form-horizontal" role="form" method="POST" action="" >
                       {{ csrf_field() }}
                     <div class="form-group">
-                        <label for="title" class="col-md-4 control-label">Tile</label>
+                        <label for="title" class="col-md-4 control-label">Title</label>
 
                         <div class="col-md-6">
                             <input id="title" type="text" class="form-control" name="title" required>

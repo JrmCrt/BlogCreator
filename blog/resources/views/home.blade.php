@@ -17,7 +17,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Wall</div>
 
-                <div class="panel-body">
+                <div class="panel-body">{{-- get articles here to not fuck up all redirection --}}
                     
                 </div>
             </div>

@@ -11,6 +11,7 @@ use App\Category;
 use Input;
 use App\Blog;
 use Auth;
+use App\SharedBlog;
 
 class BlogController extends Controller
 {
@@ -46,6 +47,30 @@ class BlogController extends Controller
     public function blog($id)
     {
     	$blog = Blog::find($id);
-    	return view('blog', ['blog' => $blog]);
+    	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
+    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed]);
+    }
+
+    public function shareBlog($id)
+    {
+    	$sharedBlog = new SharedBlog;
+    	$sharedBlog->id_user = Auth::id();
+    	$sharedBlog->id_blog = $id;
+    	$sharedBlog->save();
+    	
+    	return view('blog', ['blog' => Blog::find($id), 
+    		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
+    		'info' => 'Blog now followed']);
+    }
+
+    public function unfollowBlog($id)
+    {
+    	$sharedBlog = SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first();
+    	if(!is_null($sharedBlog))
+    		$sharedBlog->destroy($sharedBlog->id);
+    	
+    	return view('blog', ['blog' => Blog::find($id), 
+    		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
+    		'info' => 'Blog unfollowed']);
     }
 }

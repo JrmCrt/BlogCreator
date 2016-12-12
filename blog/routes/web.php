@@ -22,6 +22,8 @@ Route::get('/home', 'HomeController@index');
 Route::get('/blog/new', 'BlogController@index');
 Route::post('/blog/new', 'BlogController@newBlog');
 Route::get('/{id}', 'BlogController@blog');
+Route::get('/blog/share/{id}', 'BlogController@shareBlog');
+Route::get('/blog/unfollow/{id}', 'BlogController@unfollowBlog');
 
 Route::get('/profile/{id}', 'UserController@profile');
 Route::post('/profile/{id}', 'UserController@updateProfile');

@@ -98,4 +98,17 @@ class BlogController extends Controller
     	$comment->destroy($comment->id);
     	return view('home', ['info' => 'Comment removed']);
     }
+
+    public function article($id)
+    {	
+    	$articles = Article::where('id_blog', $id)->get();
+    	return view('articles', ['articles' => $articles]);
+    }
+
+    public function removeArticle($id)
+    {	
+    	$article = Article::find($id);
+    	$article->destroy($article->id);
+    	return view('home', ['info' => 'Article removed']);
+    }
 }

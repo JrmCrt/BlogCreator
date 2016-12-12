@@ -25,7 +25,6 @@ class ArticleController extends Controller
 
     public function index($id)
     {	
-        $cat = Category::all();
     	return view('articlenew', []);
     }
 
@@ -59,5 +58,21 @@ class ArticleController extends Controller
         $comment->content = Input::get('content');
         $comment->save();   
         return view('home', ['info' => 'comment saved']);
+    }
+
+    public function editArticle($id)
+    {   
+        $article = Article::find($id);
+        return view('articleedit', ['article' => $article]);
+    }
+
+    public function doEdit($id)
+    {   
+        $article = Article::find($id);
+        $article->title = Input::get('title');
+        $article->chapo = Input::get('chapo');
+        $article->content = Input::get('content');
+        $article->save();
+        return view('articleedit', ['article' => $article, 'info' => 'article updated']);
     }
 }

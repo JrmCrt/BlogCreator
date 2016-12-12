@@ -24,6 +24,10 @@ Route::get('/blog/{id}/article/new', 'ArticleController@index');
 Route::post('/blog/{id}/article/new', 'ArticleController@_new');
 Route::get('/blog/{id}/comment/manage', 'BlogController@comment');
 Route::get('/comment/remove/{id}', 'BlogController@removeComment');
+Route::get('/blog/{id}/article/manage', 'BlogController@article');
+Route::get('/article/remove/{id}', 'BlogController@removeArticle');
+Route::get('/article/edit/{id}', 'ArticleController@editArticle');
+Route::post('/article/edit/{id}', 'ArticleController@doEdit');
 
 Route::get('/profile/{id}', 'UserController@profile');
 Route::post('/profile/{id}', 'UserController@updateProfile');

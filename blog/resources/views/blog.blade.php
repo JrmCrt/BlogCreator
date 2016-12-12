@@ -19,6 +19,7 @@
       </div>
       <ul class="nav navbar-nav">
           <li><a href="{{ url('/blog/'.$blog->id.'/article/new') }}"><i class="fa fa-plus" aria-hidden="true"></i> New article</a></li>
+          <li><a href="{{ url('/blog/'.$blog->id.'/article/manage') }}"><i class="fa fa-file-text-o" aria-hidden="true"></i> Manage articles</a></li>
           <li><a href="{{ url('/blog/'.$blog->id.'/comment/manage') }}"><i class="fa fa-comments" aria-hidden="true"></i> Manage comments</a></li>
       </ul>
   </div>

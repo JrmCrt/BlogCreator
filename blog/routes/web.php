@@ -12,10 +12,6 @@
 */
 Route::get('/', 'IndexController@home');
 
-// Route::get('/', function () {
-//     return view('index');
-// });
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
@@ -24,6 +20,8 @@ Route::post('/blog/new', 'BlogController@newBlog');
 Route::get('/{id}', 'BlogController@blog');
 Route::get('/blog/share/{id}', 'BlogController@shareBlog');
 Route::get('/blog/unfollow/{id}', 'BlogController@unfollowBlog');
+Route::get('/blog/{id}/article/new', 'ArticleController@index');
+Route::post('/blog/{id}/article/new', 'ArticleController@_new');
 
 Route::get('/profile/{id}', 'UserController@profile');
 Route::post('/profile/{id}', 'UserController@updateProfile');
@@ -36,3 +34,6 @@ Route::get('/message/remove/{id}', 'MessageController@remove');
 Route::get('/friend/list', 'FriendController@getFriends');
 Route::get('/friend/add/{id}', 'FriendController@add');
 Route::get('/friend/remove/{id}', 'FriendController@remove');
+
+Route::get('/blog/{id_blog}/article/share/{id}', 'ArticleController@share');
+Route::post('/article/comment/{id}', 'ArticleController@addComment');

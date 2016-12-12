@@ -12,6 +12,7 @@ use Input;
 use App\Blog;
 use Auth;
 use App\SharedBlog;
+use App\Article;
 
 class BlogController extends Controller
 {
@@ -47,8 +48,9 @@ class BlogController extends Controller
     public function blog($id)
     {
     	$blog = Blog::find($id);
+    	$articles = Article::where('id_blog', $id)->get();
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
-    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed]);
+    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $articles]);
     }
 
     public function shareBlog($id)
@@ -57,10 +59,12 @@ class BlogController extends Controller
     	$sharedBlog->id_user = Auth::id();
     	$sharedBlog->id_blog = $id;
     	$sharedBlog->save();
-    	
+    	$articles = Article::where('id_blog', $id)->get();
+
     	return view('blog', ['blog' => Blog::find($id), 
     		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
-    		'info' => 'Blog now followed']);
+    		'info' => 'Blog now followed',
+    		'articles' => $articles]);
     }
 
     public function unfollowBlog($id)
@@ -69,8 +73,10 @@ class BlogController extends Controller
     	if(!is_null($sharedBlog))
     		$sharedBlog->destroy($sharedBlog->id);
     	
+    	$articles = Article::where('id_blog', $id)->get();
     	return view('blog', ['blog' => Blog::find($id), 
     		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
-    		'info' => 'Blog unfollowed']);
+    		'info' => 'Blog unfollowed',
+    		'articles' => $articles]);
     }
 }

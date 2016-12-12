@@ -11,8 +11,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
     <link href="{{ URL::asset('dist/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+   {{--  <link href="{{ URL::asset('summernote/summernote.css')}}" rel="stylesheet"> --}}
 
     <!-- Scripts -->
     <script>
@@ -114,20 +116,7 @@
             </div>
         </div>
     </nav>
-    @if(isset($blog) && $blog->id_author == Auth::id()){{--if this is out blog...add blog menu --}}
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Blog menu</a>
-      </div>
-      <ul class="nav navbar-nav">
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-      </ul>
-  </div>
-</nav>
-@endif
+    
 @yield('content')
 </div>
 
@@ -138,6 +127,11 @@
 {{-- <script src="{{ URL::asset('dist/js/bootstrap.min.js')}}"></script> --}}
 {{-- <script src="https://use.fontawesome.com/d5b4247fd9.js"></script> --}}
 <script src="{{ URL::asset('js/fontawesome.js')}}"></script>
-
+<script src="{{ URL::asset('summernote/summernote.min.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+</script>
 </body>
 </html>

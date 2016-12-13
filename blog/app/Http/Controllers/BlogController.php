@@ -51,6 +51,12 @@ class BlogController extends Controller
     {
     	$blog = Blog::find($id);
     	$articles = Article::where('id_blog', $id)->get();
+    	$_articles = DB::table('articles')
+            ->join('sharedArticles', 'sharedArticles.id_article', '=', 'articles.id')
+            ->select('*')
+            ->where('sharedArticles.id_blog', $id)
+            ->get();
+            var_dump($_articles);
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $articles]);
     }
@@ -63,10 +69,7 @@ class BlogController extends Controller
     	$sharedBlog->save();
     	$articles = Article::where('id_blog', $id)->get();
 
-    	return view('blog', ['blog' => Blog::find($id), 
-    		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
-    		'info' => 'Blog now followed',
-    		'articles' => $articles]);
+    	return redirect()->back()->with('info', 'Blog now followed !');
     }
 
     public function unfollowBlog($id)
@@ -76,10 +79,7 @@ class BlogController extends Controller
     		$sharedBlog->destroy($sharedBlog->id);
     	
     	$articles = Article::where('id_blog', $id)->get();
-    	return view('blog', ['blog' => Blog::find($id), 
-    		'isFollowed' => !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first()),
-    		'info' => 'Blog unfollowed',
-    		'articles' => $articles]);
+    	return redirect()->back()->with('info', 'Blog unfollowed !');
     }
 
     public function comment($id)
@@ -96,7 +96,7 @@ class BlogController extends Controller
     {	
     	$comment = Comment::find($id);
     	$comment->destroy($comment->id);
-    	return view('home', ['info' => 'Comment removed']);
+    	return redirect()->back()->with('info', 'Comment removed !');
     }
 
     public function article($id)
@@ -109,6 +109,6 @@ class BlogController extends Controller
     {	
     	$article = Article::find($id);
     	$article->destroy($article->id);
-    	return view('home', ['info' => 'Article removed']);
+    	return redirect()->back()->with('info', 'Article removed !');
     }
 }

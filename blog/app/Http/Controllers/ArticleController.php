@@ -38,7 +38,7 @@ class ArticleController extends Controller
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
         $article->save();
-        return view('articlenew', ['info' => 'Article saved']);
+        return redirect()->back()->with('info', 'Article saved !');
     }
 
     public function share($id_blog, $id)
@@ -47,7 +47,7 @@ class ArticleController extends Controller
         $sharedArticle->id_article = $id;
         $sharedArticle->id_blog = $id_blog;
         $sharedArticle->save();
-        return view('home', ['info' => 'article shared']);
+        return redirect()->back()->with('info', 'Article shared !');
     }
 
     public function addComment($id)
@@ -57,7 +57,7 @@ class ArticleController extends Controller
         $comment->id_article = $id;
         $comment->content = Input::get('content');
         $comment->save();   
-        return view('home', ['info' => 'comment saved']);
+        return redirect()->back()->with('info', 'Comment saved !');  
     }
 
     public function editArticle($id)
@@ -73,6 +73,6 @@ class ArticleController extends Controller
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
         $article->save();
-        return view('articleedit', ['article' => $article, 'info' => 'article updated']);
+        return redirect()->back()->with('info', 'Article updated !');  
     }
 }

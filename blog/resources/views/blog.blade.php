@@ -11,6 +11,15 @@
     </div>
 @endif
 
+@if (session('info'))
+    <div class="alert alert-success alert-dismissible fade in text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong> {{ session('info') }}</strong> 
+    </div>
+@endif
+
 @if(isset($blog) && $blog->id_author == Auth::id()){{--if this is our blog...add blog menu --}}
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -25,6 +34,7 @@
   </div>
 </nav>
 @endif
+
 
 <div class="banner" style="color:blue;">
     <img src="{{ URL::asset('files/'.$blog->banner)}}" class="img-fluid" alt="Responsive image">

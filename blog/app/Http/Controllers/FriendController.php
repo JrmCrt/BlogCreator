@@ -34,7 +34,7 @@ class FriendController extends Controller
        		$f->save();
        	else
        		$info = "User already friended";
-		return view('home', ['user' => Auth::user(), 'info' => $info]);   
+		return redirect()->back()->with('info', $info);   
 	}
 
 	public function remove($id)
@@ -48,9 +48,9 @@ class FriendController extends Controller
 			$check2->destroy($check2->id);
 
 		if(count($check1) || count($check2))
-			return view('home', ['user' => Auth::user(), 'info' => 'Friend removed']);	
+			return redirect()->back()->with('info', 'Friend removed !');	
 
-		return view('home', ['user' => Auth::user()]);
+		return redirect()->back();
 	}
 
 	public function getFriends()

@@ -50,15 +50,17 @@ class BlogController extends Controller
     public function blog($id)
     {
     	$blog = Blog::find($id);
-    	$articles = Article::where('id_blog', $id)->get();
-    	$_articles = DB::table('articles')
+    	$articles = Article::where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
+    	$articles = DB::table('articles')->where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
+    	$sharedArticles = DB::table('articles')
             ->join('sharedArticles', 'sharedArticles.id_article', '=', 'articles.id')
-            ->select('*')
+            ->select('articles.id_blog', 'id_article as id', 'title', 'chapo', 'content', 'id_category', 'sharedArticles.created_at', 'id_author')
             ->where('sharedArticles.id_blog', $id)
             ->get();
-            var_dump($_articles);
+            $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
+
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
-    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $articles]);
+    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
     }
 
     public function shareBlog($id)

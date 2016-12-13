@@ -57,6 +57,9 @@
                     @foreach ($articles as $k => $article)
                             <p><h2>{{ $article->title }}</h2> {{ $article->created_at }} </p>
                             <p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
+                            @if($article->id_blog != $blog->id)
+                                <p><em><strong>Shared from </strong></em><a href="{{ url(''.$article->id_blog.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
+                            @endif
                             <pre>{{ $article->content }}</pre>  
                             <div class="btn-group">
                               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

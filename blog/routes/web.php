@@ -43,3 +43,10 @@ Route::get('/friend/remove/{id}', 'FriendController@remove');
 
 Route::get('/blog/{id_blog}/article/share/{id}', 'ArticleController@share');
 Route::post('/article/comment/{id}', 'ArticleController@addComment');
+
+Route::get('/category/manage', 'CategoryController@index');
+Route::get('/category/new', 'CategoryController@_new');
+Route::post('/category/new', 'CategoryController@doNew');
+Route::get('/category/remove/{id}', 'CategoryController@remove');
+Route::get('/category/edit/{id}', 'CategoryController@edit');
+Route::post('/category/edit/{id}', 'CategoryController@doEdit');

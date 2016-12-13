@@ -24,17 +24,27 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Articles </div>
+                <div class="panel-heading">New article</div>
                 <div class="panel-body">
-                   @foreach($articles as $k => $article)
-                        <p><a href="{{ url('/profile/'.$article->id_author.'') }}"/>{{App\User::find($article->id_author)->name}}</a> | {{$article->created_at}}</p>
-                        <p>{{$article->title}}</p>
-                        <p>{{$article->chapo}}</p>
-                        <p>{{$article->content}}</p>
-                        <a href="{{ url('/article/remove/'.$article->id.'') }}" class="btn btn-danger" role="button"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
-                        <a href="{{ url('/article/edit/'.$article->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
-                        <?php $k != count($articles) - 1 && print("<hr>"); ?> 
-                   @endforeach
+                   <form class="form-horizontal" role="form" method="POST" action="" >
+                      {{ csrf_field() }}
+                    <div class="form-group">
+                        <label for="name" class="col-md-4 control-label">Name</label>
+
+                        <div class="col-md-6">
+                            <input id="name" type="text" class="form-control" name="name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
                 </div>
             </div>
         </div>

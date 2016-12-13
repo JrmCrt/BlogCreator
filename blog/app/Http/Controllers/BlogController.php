@@ -58,7 +58,7 @@ class BlogController extends Controller
             ->where('sharedArticles.id_blog', $id)
             ->get();
             $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
-
+            
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
     }

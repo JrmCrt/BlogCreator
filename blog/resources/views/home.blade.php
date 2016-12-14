@@ -48,10 +48,10 @@
                         </button>
                         <div class="dropdown-menu">
                             @foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $b)
-                        {{--     @if($b->id != $blog->id)
+                        
                             <a class="dropdown-item" href="{{ url('blog/'. $b->id.'/article/share/'.$article->id) }}"/>{{$b->title}}</a>   
                             <div class="dropdown-divider"></div>
-                            @endif        --}} 
+                           
                             @endforeach  
                         </div>
                     </div>

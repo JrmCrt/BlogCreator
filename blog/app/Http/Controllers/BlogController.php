@@ -12,6 +12,7 @@ use Input;
 use App\Blog;
 use Auth;
 use App\SharedBlog;
+use App\SharedArticle;
 use App\Article;
 use App\Comment;
 use DB;
@@ -50,14 +51,16 @@ class BlogController extends Controller
     public function blog($id)
     {
     	$blog = Blog::find($id);
-    	$articles = Article::where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
-    	$articles = DB::table('articles')->where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
-    	$sharedArticles = DB::table('articles')
-            ->join('sharedArticles', 'sharedArticles.id_article', '=', 'articles.id')
-            ->select('articles.id_blog', 'id_article as id', 'title', 'chapo', 'content', 'id_category', 'sharedArticles.created_at', 'id_author')
-            ->where('sharedArticles.id_blog', $id)
-            ->get();
-        $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
+    	// $articles = Article::where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
+    	// $articles = DB::table('articles')->where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
+    	// $sharedArticles = DB::table('articles')
+     //        ->join('sharedArticles', 'sharedArticles.id_article', '=', 'articles.id')
+     //        ->select('articles.id_blog', 'id_article as id', 'title', 'chapo', 'content', 'id_category', 'sharedArticles.created_at', 'id_author')
+     //        ->where('sharedArticles.id_blog', $id)
+     //        ->get();
+     //    $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
+        $r = Article::where('id_blog', $id)->orWhereIn('id', 
+        		SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
             
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
@@ -119,8 +122,14 @@ class BlogController extends Controller
         $blogs = Blog::where('id_author', Auth::id())
                ->orderBy('created_at', 'asc')
                ->get();
-
-        $articles = Article::where('id_blog', 12)->get();     
+ 
+        //$articles = Article::whereIn('id_blog', SharedBlog::where('id_user', Auth::id())->select('id_blog')->get())->get(); 
+        $blogsId = Sharedblog::where('id_user', Auth::id())->pluck('id_blog');
+        foreach($blogsId as $b){
+        	$bArticle = Article::where('id_blog', $b)->orWhereIn('id', 
+        		SharedArticle::where('id_blog', $b)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
+        	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
+        } 
                
         return view('home', ['articles' => $articles]);
     }

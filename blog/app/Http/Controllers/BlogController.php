@@ -144,6 +144,10 @@ class BlogController extends Controller
         if($category != 0)
         	$r = $r->where('id_category', $category);
 
+        $year = Input::get('year');
+        if($year != 0)
+        	$r = $r->where('created_at', '>=', "$year-01-01")->where('created_at', '<', ($year + 1 ). '-01-01');
+
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
     }
@@ -165,6 +169,10 @@ class BlogController extends Controller
         
         if($category != 0)
         	$articles = $articles->where('id_category', $category);
+
+        $year = Input::get('year');
+        if($year != 0)
+        	$articles = $articles->where('created_at', '>=', "$year-01-01")->where('created_at', '<', ($year + 1 ). '-01-01');
 
         return view('home', ['articles' => $articles]);
     }

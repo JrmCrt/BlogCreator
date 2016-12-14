@@ -184,4 +184,28 @@ class BlogController extends Controller
     	$allBlogs = Blog::all();
     	return view('bloglist', ['allBlogs' => $allBlogs]);
     }
+
+    public function manage($id)
+    {
+    	$blog = Blog::find($id);
+    	return view('blogedit', ['blog' => $blog]);
+    }
+
+    public function edit($id)
+    {	
+    	$blog = Blog::find($id);
+    	$blog->title = Input::get('title');
+    	$blog->description = Input::get('description');
+    	if(!empty(Input::file('banner')) )
+    	{
+    		$file = Input::file('banner'); 
+    		$fName = Input::file('banner')->getClientOriginalName();
+    		$destinationPath = "files";
+			$file->move($destinationPath, $fName); 
+			$blog->banner = $fName;
+    	}
+
+    	$blog->save();
+    	return redirect()->back()->with('info', 'Blog updated !');
+    }
 }

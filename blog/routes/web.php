@@ -26,6 +26,8 @@ Route::get('/blog/unfollow/{id}', 'BlogController@unfollowBlog');
 Route::get('/blog/{id}/article/new', 'ArticleController@index');
 Route::post('/blog/{id}/article/new', 'ArticleController@_new');
 Route::get('/blog/{id}/comment/manage', 'BlogController@comment');
+Route::get('/blog/{id}/manage', 'BlogController@manage');
+Route::post('/blog/{id}/manage', 'BlogController@edit');
 Route::get('/comment/remove/{id}', 'BlogController@removeComment');
 Route::get('/blog/{id}/article/manage', 'BlogController@article');
 Route::get('/article/remove/{id}', 'BlogController@removeArticle');

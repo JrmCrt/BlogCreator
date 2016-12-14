@@ -31,6 +31,7 @@
 			<li><a href="{{ url('/blog/'.$blog->id.'/article/manage') }}"><i class="fa fa-file-text-o" aria-hidden="true"></i> Manage articles</a></li>
 			<li><a href="{{ url('/blog/'.$blog->id.'/comment/manage') }}"><i class="fa fa-comments" aria-hidden="true"></i> Manage comments</a></li>
 			<li><a href="{{ url('/category/manage') }}"><i class="fa fa-cog" aria-hidden="true"></i> Manage categories</a></li>
+			<li><a href="{{ url('/blog/'.$blog->id.'/manage') }}"><i class="fa fa-book" aria-hidden="true"></i> Manage Blog</a></li>
 		</ul>
 	</div>
 </nav>
@@ -57,7 +58,7 @@
            <select class="form-control" name="year">
            <option value="0">All</option>
                 <?php for($i=date("Y"); $i >= 2010; $i--): ?>
-                  <option value="{{$i}}" <?php isset($_POST['year']) && $_POST['year'] == $i && print('selected');?>>{{$i}}</option>
+                  <option value="{{$i}}"<?php isset($_POST['year']) && $_POST['year'] == $i && print('selected');?>>{{$i}}</option>
                 <?php endfor; ?>
           </select>
       </div>
@@ -81,7 +82,7 @@
 	<div class="row">
 		<div class="col-md-12 col-md-offset-0">
 			<div class="panel panel-info">
-				<div class="panel-heading clearfix"><strong>{{$blog->title}}</strong> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</a> 
+				<div class="panel-heading clearfix"><p><strong>{{$blog->title}}</strong> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</p></a> <em>{{$blog->description}}</em>
 					@if($blog->id_author != Auth::id())
 					@if(!$isFollowed)
 					<a href="{{ url('/blog/share/'.$blog->id.'') }}" class="btn btn-primary pull-right" role="button"><i class="fa fa-share" aria-hidden="true"></i> Follow</a>

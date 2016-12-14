@@ -15,6 +15,7 @@ use App\SharedBlog;
 use App\Article;
 use App\SharedArticle;
 use App\Comment;
+use App\Image;
 
 class ArticleController extends Controller
 {
@@ -30,6 +31,8 @@ class ArticleController extends Controller
 
     public function _new($id)
     {   
+
+
         $article = new Article;
         $article->id_blog = $id;
         $article->id_category = Input::get('category');
@@ -38,6 +41,19 @@ class ArticleController extends Controller
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
         $article->save();
+        
+        $images = Input::file('images');
+
+        foreach($images as $image){ 
+            $fName = $image->getClientOriginalName();
+            $destinationPath = "files";
+            $image->move($destinationPath, $fName); 
+            $img = new Image;
+            $img->id_article = $article->id;
+            $img->image = $fName;
+            $img->save();
+        }
+
         return redirect()->back()->with('info', 'Article saved !');
     }
 
@@ -73,6 +89,25 @@ class ArticleController extends Controller
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
         $article->save();
+
+        $images = Input::file('images');
+
+        foreach($images as $image){ 
+            $fName = $image->getClientOriginalName();
+            $destinationPath = "files";
+            $image->move($destinationPath, $fName); 
+            $img = new Image;
+            $img->id_article = $id;
+            $img->image = $fName;
+            $img->save();
+        }
         return redirect()->back()->with('info', 'Article updated !');  
+    }
+
+    public function removeImg($id)
+    {   
+        $image = Image::find($id);
+        $image->destroy($image->id);
+        return redirect()->back()->with('info', 'Image removed !');
     }
 }

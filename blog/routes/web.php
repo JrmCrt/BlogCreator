@@ -50,3 +50,5 @@ Route::post('/category/new', 'CategoryController@doNew');
 Route::get('/category/remove/{id}', 'CategoryController@remove');
 Route::get('/category/edit/{id}', 'CategoryController@edit');
 Route::post('/category/edit/{id}', 'CategoryController@doEdit');
+
+Route::get('/image/remove/{id}', 'ArticleController@removeImg');

@@ -26,7 +26,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">New article</div>
                 <div class="panel-body">
-                   <form class="form-horizontal" role="form" method="POST" action="" >
+                   <form class="form-horizontal" role="form" method="POST" action="" enctype="multipart/form-data">
                       {{ csrf_field() }}
                     <div class="form-group">
                         <label for="title" class="col-md-4 control-label">Title</label>
@@ -68,7 +68,14 @@
                         </div>
                     </div>
 
-                    
+                    <div class="form-group">
+                        <label for="images" class="col-md-4 control-label">Add images</label>
+
+                        <div class="col-md-6">
+                            <input id="images" type="file" class="form-control-file" name="images[]" multiple>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
                             <button type="submit" class="btn btn-primary">
@@ -78,6 +85,14 @@
                     </div>
 
                 </form>
+
+                @foreach (App\Image::where('id_article', $article->id)->orderBy('created_at', 'asc')->get() as $image)
+                    <div class="col-md-6 col-md-offset-4">
+                    <img src="{{ URL::asset('files/'.$image->image)}}" class="articleImg" alt="Responsive image" >
+                    <a href="{{ url('/image/remove/'.$image->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Remove</a>     
+                    </div>    
+                @endforeach
+
                 </div>
             </div>
         </div>

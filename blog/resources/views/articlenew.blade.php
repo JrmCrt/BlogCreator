@@ -26,7 +26,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">New article</div>
                 <div class="panel-body">
-                   <form class="form-horizontal" role="form" method="POST" action="" >
+                   <form class="form-horizontal" role="form" method="POST" action="" enctype="multipart/form-data">
                       {{ csrf_field() }}
                     <div class="form-group">
                         <label for="title" class="col-md-4 control-label">Title</label>
@@ -64,6 +64,13 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="images" class="col-md-4 control-label">Images</label>
+
+                        <div class="col-md-6">
+                            <input id="images" type="file" class="form-control-file" name="images[]" multiple>
+                        </div>
+                    </div>
                     {{--  <div id="summernote" name="content"><p>Content</p></div> --}}
 
                     

@@ -5,7 +5,13 @@
  .banner img{	
 	max-width: 1900px;
 }	
-
+.articleImg{
+	max-width: 200px;
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);/*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.

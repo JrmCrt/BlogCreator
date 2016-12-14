@@ -58,7 +58,11 @@
                         @else
                         <a href="{{ url('/friend/list') }}"><button class="btn btn-primary navbar-btn"><i class="fa fa-users" aria-hidden="true"></i> Friends</button></a>
 
-                        <a href="{{ url('/message/list') }}"><button class="btn btn-danger navbar-btn"><i class="fa fa-envelope" aria-hidden="true"></i> Messages</button></a>
+                        <a href="{{ url('/message/list') }}"><button class="btn btn-danger navbar-btn"><i class="fa fa-envelope" aria-hidden="true"></i> Messages
+                        <?php $unseen = count(App\Message::where('id_recipient', Auth::id() )->where('recipient_deleted', null)->where('seen', null)->get());
+                            if($unseen > 0) echo "($unseen)";
+                        ?>
+                        </button></a>
 
 
                         <li class="dropdown">

@@ -57,7 +57,7 @@ class BlogController extends Controller
             ->select('articles.id_blog', 'id_article as id', 'title', 'chapo', 'content', 'id_category', 'sharedArticles.created_at', 'id_author')
             ->where('sharedArticles.id_blog', $id)
             ->get();
-            $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
+        $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
             
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
@@ -112,5 +112,16 @@ class BlogController extends Controller
     	$article = Article::find($id);
     	$article->destroy($article->id);
     	return redirect()->back()->with('info', 'Article removed !');
+    }
+
+    public function wall()
+    {
+        $blogs = Blog::where('id_author', Auth::id())
+               ->orderBy('created_at', 'asc')
+               ->get();
+
+        $articles = Article::where('id_blog', 12)->get();     
+               
+        return view('home', ['articles' => $articles]);
     }
 }

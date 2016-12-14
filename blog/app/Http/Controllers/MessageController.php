@@ -40,6 +40,11 @@ class MessageController extends Controller
     public function getMessages()
     {   
         $messages = Message::where('id_recipient', Auth::id() )->where('recipient_deleted', null)->orderBy('created_at', 'desc')->get();
+        foreach($messages as $message){
+            $m = Message::find($message->id);
+            $m->seen = 1;
+            $m->save();
+        }
         return view('messages', ['messages' => $messages]);
     }
 

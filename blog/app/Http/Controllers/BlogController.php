@@ -61,7 +61,7 @@ class BlogController extends Controller
      //    $r = $articles->merge($sharedArticles)->sortByDesc('created_at');
         $r = Article::where('id_blog', $id)->orWhereIn('id', 
         		SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
-            
+
     	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
     	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
     }
@@ -131,6 +131,41 @@ class BlogController extends Controller
         	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
         } 
                
+        return view('home', ['articles' => $articles]);
+    }
+
+    public function filterBlog($id)
+    {
+    	$blog = Blog::find($id);
+        $r = Article::where('id_blog', $id)->orWhereIn('id', 
+        		SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
+        $category = Input::get('category');
+        
+        if($category != 0)
+        	$r = $r->where('id_category', $category);
+
+    	$isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id)->first());
+    	return view('blog', ['blog' => $blog, 'isFollowed' => $isFollowed, 'articles' => $r]);
+    }
+
+    public function filterwall()
+    {
+        $blogs = Blog::where('id_author', Auth::id())
+               ->orderBy('created_at', 'asc')
+               ->get();
+ 
+        $blogsId = Sharedblog::where('id_user', Auth::id())->pluck('id_blog');
+        foreach($blogsId as $b){
+        	$bArticle = Article::where('id_blog', $b)->orWhereIn('id', 
+        		SharedArticle::where('id_blog', $b)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
+        	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
+        } 
+        
+        $category = Input::get('category');
+        
+        if($category != 0)
+        	$articles = $articles->where('id_category', $category);
+
         return view('home', ['articles' => $articles]);
     }
 }

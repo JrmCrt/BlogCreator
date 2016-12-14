@@ -15,9 +15,11 @@ Route::get('/', 'IndexController@home');
 Auth::routes();
 
 Route::get('/home', 'BlogController@wall');
+Route::post('/home', 'BlogController@filterWall');
 Route::get('/blog/new', 'BlogController@index');
 Route::post('/blog/new', 'BlogController@newBlog');
 Route::get('/{id}', 'BlogController@blog');
+Route::post('/{id}', 'BlogController@filterBlog');
 Route::get('/blog/share/{id}', 'BlogController@shareBlog');
 Route::get('/blog/unfollow/{id}', 'BlogController@unfollowBlog');
 Route::get('/blog/{id}/article/new', 'ArticleController@index');

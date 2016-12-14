@@ -20,6 +20,32 @@
 </div>
 @endif
 
+<form class="form-horizontal" role="form" method="POST" action="">
+                      {{ csrf_field() }}
+
+                    <div class="form-group">
+                        <label for="category" class="col-md-4 control-label">Category</label>
+
+                        <div class="col-md-4">
+                             <select class="form-control" name="category">
+                             <option value="0">All</option>
+                                @foreach (App\Category::all() as $category)
+                                    <option value="{{$category->id}}" 
+                                    <?php isset($_POST['category']) && $_POST['category'] == $category->id && print('selected'); ?>
+                                        >{{$category->name}}</option>               
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-filter"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
 
 <div class="container">
     <div class="row">

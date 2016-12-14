@@ -89,6 +89,9 @@
                                 <li>
                                     <a href="{{ url('/blog/new') }}"/><i class="fa fa-plus" aria-hidden="true"></i> New</a>
                                 </li>
+                                <li>
+                                    <a href="{{ url('/blog/list') }}"/><i class="fa fa-globe" aria-hidden="true"></i> All blog</a>
+                                </li>
                             </ul>
                         </li>
 

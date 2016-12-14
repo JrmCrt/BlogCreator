@@ -51,6 +51,8 @@ class BlogController extends Controller
     public function blog($id)
     {
     	$blog = Blog::find($id);
+    	if(is_null($blog)) 
+    		return view('newblog', []);
     	// $articles = Article::where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
     	// $articles = DB::table('articles')->where('id_blog', $id)->orderBy('created_at', 'DESC')->get();
     	// $sharedArticles = DB::table('articles')
@@ -175,5 +177,11 @@ class BlogController extends Controller
         	$articles = $articles->where('created_at', '>=', "$year-01-01")->where('created_at', '<', ($year + 1 ). '-01-01');
 
         return view('home', ['articles' => $articles]);
+    }
+
+    public function _list()
+    {
+    	$allBlogs = Blog::all();
+    	return view('bloglist', ['allBlogs' => $allBlogs]);
     }
 }

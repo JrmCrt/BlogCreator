@@ -18,6 +18,7 @@ Route::get('/home', 'BlogController@wall');
 Route::post('/home', 'BlogController@filterWall');
 Route::get('/blog/new', 'BlogController@index');
 Route::post('/blog/new', 'BlogController@newBlog');
+Route::get('/blog/list', 'BlogController@_list');
 Route::get('/{id}', 'BlogController@blog');
 Route::post('/{id}', 'BlogController@filterBlog');
 Route::get('/blog/share/{id}', 'BlogController@shareBlog');

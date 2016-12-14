@@ -74,7 +74,11 @@
                     @endif --}}
                     <pre>{{ $article->content }}</pre>  
                     @foreach (App\Image::where('id_article', $article->id)->orderBy('created_at', 'asc')->get() as $image)
-                    <img src="{{ URL::asset('files/'.$image->image)}}" class="articleImg" alt="Responsive image" >             
+                        @if(strstr($image->mime, 'image'))
+                            <img src="{{ URL::asset('files/'.$image->image)}}" class="articleImg" alt="Responsive image" >  
+                        @else
+                            <a href="{{ URL::asset('files/'.$image->image)}}" download="{{$image->image}}">Download {{$image->image}}</a>       
+                        @endif        
                     @endforeach
 
                     <br/>

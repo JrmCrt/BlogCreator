@@ -87,10 +87,17 @@
                 </form>
 
                 @foreach (App\Image::where('id_article', $article->id)->orderBy('created_at', 'asc')->get() as $image)
-                    <div class="col-md-6 col-md-offset-4">
-                    <img src="{{ URL::asset('files/'.$image->image)}}" class="articleImg" alt="Responsive image" >
-                    <a href="{{ url('/image/remove/'.$image->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Remove</a>     
-                    </div>    
+                    @if(strstr($image->mime, 'image'))
+                        <div class="col-md-6 col-md-offset-4">
+                        <img src="{{ URL::asset('files/'.$image->image)}}" class="articleImg" alt="Responsive image" >
+                        <a href="{{ url('/image/remove/'.$image->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Remove</a>     
+                        </div>
+                    @else   
+                        <div class="col-md-6 col-md-offset-4">
+                        {{$image->image}}
+                        <a href="{{ url('/image/remove/'.$image->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Remove</a>     
+                        </div>
+                    @endif 
                 @endforeach
 
                 </div>

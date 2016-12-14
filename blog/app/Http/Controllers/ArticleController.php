@@ -31,8 +31,6 @@ class ArticleController extends Controller
 
     public function _new($id)
     {   
-
-
         $article = new Article;
         $article->id_blog = $id;
         $article->id_category = Input::get('category');
@@ -43,7 +41,7 @@ class ArticleController extends Controller
         $article->save();
         
         $images = Input::file('images');
-
+    
         foreach($images as $image){ 
             $fName = $image->getClientOriginalName();
             $destinationPath = "files";
@@ -51,6 +49,7 @@ class ArticleController extends Controller
             $img = new Image;
             $img->id_article = $article->id;
             $img->image = $fName;
+            $img->mime = $image->getClientMimeType();
             $img->save();
         }
 
@@ -99,6 +98,7 @@ class ArticleController extends Controller
             $img = new Image;
             $img->id_article = $id;
             $img->image = $fName;
+            $img->mime = $image->getClientMimeType();
             $img->save();
         }
         return redirect()->back()->with('info', 'Article updated !');  

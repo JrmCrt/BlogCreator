@@ -26,8 +26,8 @@ class ArticleController extends Controller
     }
 
     public function index($id)
-    {	
-    	return view('articlenew', []);
+    {   
+        return view('articlenew', []);
     }
 
     public function _new($id)
@@ -42,17 +42,31 @@ class ArticleController extends Controller
         $article->save();
         
         $images = Input::file('images');
-    
-        foreach($images as $image){ 
-            $fName = $image->getClientOriginalName();
-            $destinationPath = "files";
-            $image->move($destinationPath, $fName); 
-            $img = new Image;
-            $img->id_article = $article->id;
-            $img->image = $fName;
-            $img->mime = $image->getClientMimeType();
-            $img->save();
-        }
+        if(!is_null($images))
+            foreach($images as $image){ 
+                $fName = $image->getClientOriginalName();
+                $destinationPath = "files";
+                $image->move($destinationPath, $fName); 
+                $img = new Image;
+                $img->id_article = $article->id;
+                $img->image = $fName;
+                $img->mime = $image->getClientMimeType();
+                $img->save();
+            }
+
+        $blog = Blog::find($id);
+        $followers = SharedBlog::where('id_blog', $id)->pluck('id_user');
+
+        if(!is_null($followers))
+            foreach($followers as $user){
+                $notification = new Notification;
+                $notification->id_user = $user;
+                $notification->url = "blog/$id/read/$article->id";
+                $notification->icon = 'file-text-o';
+                $notification->content = 'New article on blog ' . $blog->title;
+                $notification->save();
+            }
+
 
         return redirect()->back()->with('info', 'Article saved !');
     }
@@ -69,7 +83,7 @@ class ArticleController extends Controller
         $notification = new Notification;
         $notification->id_user = $article->id_author;
         $notification->url = "$blog->id";
-        $notification->icon = 'share';
+        $notification->icon = 'retweet';
         $notification->content = Auth::user()->name . ' shared your article ' . $article->title . ' on their blog ' . $blog->title;
         $notification->save();
 
@@ -85,12 +99,15 @@ class ArticleController extends Controller
         $comment->save();
 
         $article = Article::find($id);
-        $notification = new Notification;
-        $notification->id_user = $article->id_author;
-        $notification->url = "blog/$article->id_blog/read/$article->id";
-        $notification->icon = 'comment';
-        $notification->content = Auth::user()->name . ' commented on your article ' . $article->title;
-        $notification->save();
+
+        if(Auth::id() != $article->id_author){
+            $notification = new Notification;
+            $notification->id_user = $article->id_author;
+            $notification->url = "blog/$article->id_blog/read/$article->id";
+            $notification->icon = 'comment';
+            $notification->content = Auth::user()->name . ' commented on your article ' . $article->title;
+            $notification->save();            
+        }
 
         return redirect()->back()->with('info', 'Comment saved !');  
     }
@@ -110,17 +127,17 @@ class ArticleController extends Controller
         $article->save();
 
         $images = Input::file('images');
-
-        foreach($images as $image){ 
-            $fName = $image->getClientOriginalName();
-            $destinationPath = "files";
-            $image->move($destinationPath, $fName); 
-            $img = new Image;
-            $img->id_article = $id;
-            $img->image = $fName;
-            $img->mime = $image->getClientMimeType();
-            $img->save();
-        }
+        if(!is_null($images))
+            foreach($images as $image){ 
+                $fName = $image->getClientOriginalName();
+                $destinationPath = "files";
+                $image->move($destinationPath, $fName); 
+                $img = new Image;
+                $img->id_article = $id;
+                $img->image = $fName;
+                $img->mime = $image->getClientMimeType();
+                $img->save();
+            }
         return redirect()->back()->with('info', 'Article updated !');  
     }
 

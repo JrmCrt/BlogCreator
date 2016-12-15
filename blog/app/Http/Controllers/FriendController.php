@@ -76,7 +76,7 @@ class FriendController extends Controller
 			$notif->save();
 		}
 
-		return redirect()->back()->with('info', 'Notification cleared !');	
+		return redirect()->back()->with('info', 'Notifications cleared !');	
 	}
 
 }

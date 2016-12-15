@@ -16,6 +16,7 @@ use App\Article;
 use App\SharedArticle;
 use App\Comment;
 use App\Image;
+use App\Notification;
 
 class ArticleController extends Controller
 {
@@ -71,7 +72,16 @@ class ArticleController extends Controller
         $comment->id_user = Auth::id();
         $comment->id_article = $id;
         $comment->content = Input::get('content');
-        $comment->save();   
+        $comment->save();
+
+        $article = Article::find($id);
+        $notification = new Notification;
+        $notification->id_user = $article->id_author;
+        $notification->url = "blog/$article->id_blog/read/$article->id";
+        $notification->icon = 'comment';
+        $notification->content = Auth::user()->name . ' commented on your article ' . $article->title;
+        $notification->save();
+
         return redirect()->back()->with('info', 'Comment saved !');  
     }
 

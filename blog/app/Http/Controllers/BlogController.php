@@ -16,6 +16,7 @@ use App\SharedArticle;
 use App\Article;
 use App\Comment;
 use DB;
+use App\Notification;
 
 class BlogController extends Controller
 {
@@ -75,6 +76,14 @@ class BlogController extends Controller
     	$sharedBlog->id_blog = $id;
     	$sharedBlog->save();
     	$articles = Article::where('id_blog', $id)->get();
+
+    	$blog = Blog::find($id);
+    	$notification = new Notification;
+       	$notification->id_user = $blog->id_author;
+       	$notification->url = '/profile/' . Auth::id();
+       	$notification->icon = 'share';
+       	$notification->content = Auth::user()->name . ' is now following your blog ' . $blog->title;
+   		$notification->save();
 
     	return redirect()->back()->with('info', 'Blog now followed !');
     }

@@ -72,7 +72,7 @@
                                 if($unseenN > 0) echo "($unseenN)";
                             ?></button>
                             <div class="dropdown-menu">
-                                @foreach (App\Notification::where('id_user', Auth::id() )->where('seen', null)->get() as $notification)
+                                @foreach (App\Notification::where('id_user', Auth::id() )->where('seen', null)->orderBy('created_at', 'DESC')->get() as $notification)
                                     <li><a class="dropdown-item" href="{{url($notification->url)}}"/><i class="fa fa-{{$notification->icon}}" aria-hidden="true"></i> {{$notification->content}}</a>   
                                     </li>
                                 @endforeach

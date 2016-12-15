@@ -143,9 +143,9 @@ class BlogController extends Controller
 	        	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
 	        }
 	    else
-	    	$articles = [];
+	    	return view('home', ['articles' => [], 'blogsId' => []]);
 
-        return view('home', ['articles' => $articles]);
+        return view('home', ['articles' => $articles, 'blogsId' => $blogsId->toArray()]);
     }
 
     public function filterBlog($id)

@@ -65,13 +65,26 @@
                 </div>
                 <div class="panel-body">
                     @foreach ($articles as $k => $article)
+                    
+                    @if(!in_array($article->id_blog, $blogsId))
+                      <p><em><strong>Shared from </strong></em><a href="{{ url('/blog/'.$article->id_blog.'/read/'.$article->id) }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
+                      <?php
+                      	$originalBlog = App\SharedArticle::where('id_article', $article->id)->whereIn('id_blog', $blogsId)->first();
+                      ?>
+                     	<p>From<a href="{{ url('/'.$originalBlog->id_blog.'') }}"/> {{App\Blog::find($originalBlog->id_blog)->title}}</a>
+                		by<a href="{{ url('/profile/'.$article->id_author.'') }}"/> {{App\User::find(
+                			App\Blog::find($originalBlog->id_blog)->id_author)->name}}</a></p>
+                    <p><h2><a href="{{ url('/blog/'.$article->id_blog.'/read/'.$article->id.'') }}" >{{ $article->title }}</a></h2> {{ $article->created_at }} </p>
+                    <p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
+                    @else
+
                     <p>From<a href="{{ url('/'.$article->id_blog.'') }}"/> {{App\Blog::find($article->id_blog)->title}}</a>
                     by<a href="{{ url('/profile/'.$article->id_author.'') }}"/> {{App\User::find($article->id_author)->name}}</a></p>
                     <p><h2><a href="{{ url('/blog/'.$article->id_blog.'/read/'.$article->id.'') }}" >{{ $article->title }}</a></h2> {{ $article->created_at }} </p>
                     <p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
-                   {{--  @if($article->id_blog != $blog->id)
-                    <p><em><strong>Shared from </strong></em><a href="{{ url(''.$article->id_blog.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
-                    @endif --}}
+                    	  
+                    @endif
+
                     <pre>{{ $article->content }}</pre>  
                     @foreach (App\Image::where('id_article', $article->id)->orderBy('created_at', 'asc')->get() as $image)
                         @if(strstr($image->mime, 'image'))

@@ -73,12 +73,15 @@ class ArticleController extends Controller
 
     public function share($id_blog, $id)
     {   
+        $blog = Blog::find($id_blog);
+        if($blog->id_author != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');
+
         $sharedArticle = new SharedArticle;
         $sharedArticle->id_article = $id;
         $sharedArticle->id_blog = $id_blog;
         $sharedArticle->save();
 
-        $blog = Blog::find($id_blog);
         $article = Article::find($id);
         $notification = new Notification;
         $notification->id_user = $article->id_author;

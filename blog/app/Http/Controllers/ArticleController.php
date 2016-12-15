@@ -63,6 +63,16 @@ class ArticleController extends Controller
         $sharedArticle->id_article = $id;
         $sharedArticle->id_blog = $id_blog;
         $sharedArticle->save();
+
+        $blog = Blog::find($id_blog);
+        $article = Article::find($id);
+        $notification = new Notification;
+        $notification->id_user = $article->id_author;
+        $notification->url = "$blog->id";
+        $notification->icon = 'share';
+        $notification->content = Auth::user()->name . ' shared your article ' . $article->title . ' on their blog ' . $blog->title;
+        $notification->save();
+
         return redirect()->back()->with('info', 'Article shared !');
     }
 

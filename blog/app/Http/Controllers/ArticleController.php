@@ -115,6 +115,9 @@ class ArticleController extends Controller
     public function editArticle($id)
     {   
         $article = Article::find($id);
+         if(is_null($article))
+            return redirect()->back()->with('info', 'No article found !');
+
         return view('articleedit', ['article' => $article]);
     }
 
@@ -152,6 +155,10 @@ class ArticleController extends Controller
     {   
         $article = Article::find($id);
         $blog = Blog::find($id_blog);
+
+        if(is_null($article) || is_null($blog))
+            return redirect()->back()->with('info', 'No article found !');
+
         $isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id_blog)->first());
         return view('article', ['blog' => $blog, 'article' => $article, 'isFollowed' => $isFollowed]);
     }

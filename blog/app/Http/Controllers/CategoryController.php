@@ -50,6 +50,8 @@ class CategoryController extends Controller
 	public function edit($id)
 	{
 		$category = Category::find($id);
+		if(is_null($category))
+            return redirect()->back()->with('info', 'No category found !');
 		return view('categoryedit', ['category' => $category]);
 	}
 

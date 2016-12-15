@@ -100,6 +100,10 @@ class BlogController extends Controller
 
     public function comment($id)
     {	
+    	$blog = Blog::find($id);
+    	if($blog->id_author != Auth::id())
+    		return redirect()->back()->with('info', 'Permission denied !');
+    	
     	$comments = DB::table('comments')
             ->join('articles', 'articles.id', '=', 'comments.id_article')
             ->select('*', 'comments.content as commentContent', 'comments.id as id_comment')
@@ -118,6 +122,10 @@ class BlogController extends Controller
     public function article($id)
     {	
     	$articles = Article::where('id_blog', $id)->get();
+    	$blog = Blog::find($id);
+    	if($blog->id_author != Auth::id())
+    		return redirect()->back()->with('info', 'Permission denied !');
+
     	return view('articles', ['articles' => $articles]);
     }
 
@@ -204,6 +212,13 @@ class BlogController extends Controller
     public function manage($id)
     {
     	$blog = Blog::find($id);
+
+    	if(is_null($blog))
+    		return redirect()->back()->with('info', 'No blog found');
+
+    	if($blog->id_author != Auth::id())
+    		return redirect()->back()->with('info', 'Permission denied !');
+
     	return view('blogedit', ['blog' => $blog]);
     }
 

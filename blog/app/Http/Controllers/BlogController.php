@@ -173,6 +173,10 @@ class BlogController extends Controller
                ->get();
  
         $blogsId = Sharedblog::where('id_user', Auth::id())->pluck('id_blog');
+
+        if(!count($blogsId))
+        	return view('home', ['articles' => []]);
+
         foreach($blogsId as $b){
         	$bArticle = Article::where('id_blog', $b)->orWhereIn('id', 
         		SharedArticle::where('id_blog', $b)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();

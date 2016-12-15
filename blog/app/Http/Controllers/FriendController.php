@@ -70,11 +70,13 @@ class FriendController extends Controller
 	public function clearNotifications()
 	{	
 		$notifications = Notification::where('id_user', Auth::id())->get();
-		foreach($notifications as $notification){
-			$notif = Notification::find($notification->id);
-			$notif->seen = 1;
-			$notif->save();
-		}
+
+		if(!is_null($notifications))
+			foreach($notifications as $notification){
+				$notif = Notification::find($notification->id);
+				$notif->seen = 1;
+				$notif->save();
+			}
 
 		return redirect()->back()->with('info', 'Notifications cleared !');	
 	}

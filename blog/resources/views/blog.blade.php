@@ -96,7 +96,7 @@
 					<p><h2><a href="{{ url('/blog/'.$blog->id.'/read/'.$article->id.'') }}" >{{ $article->title }}</a></h2> {{ $article->created_at }} </p>
 					<p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
 					@if($article->id_blog != $blog->id)
-					<p><em><strong>Shared from </strong></em><a href="{{ url(''.$article->id_blog.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
+					<p><em><strong>Shared from </strong></em><a href="{{ url('/blog/'.$article->id_blog.'/read/'.$article->id.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
 					@endif
 					<pre>{{ $article->content }}</pre>  
 					@foreach (App\Image::where('id_article', $article->id)->orderBy('created_at', 'asc')->get() as $image)

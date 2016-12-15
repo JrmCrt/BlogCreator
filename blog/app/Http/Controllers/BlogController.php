@@ -103,12 +103,13 @@ class BlogController extends Controller
     	$blog = Blog::find($id);
     	if($blog->id_author != Auth::id())
     		return redirect()->back()->with('info', 'Permission denied !');
-    	
+
     	$comments = DB::table('comments')
             ->join('articles', 'articles.id', '=', 'comments.id_article')
             ->select('*', 'comments.content as commentContent', 'comments.id as id_comment')
             ->where('id_blog', $id)
             ->get();
+
     	return view('comments', ['comments' => $comments]);
     }
 
@@ -200,7 +201,7 @@ class BlogController extends Controller
         if($year != 0)
         	$articles = $articles->where('created_at', '>=', "$year-01-01")->where('created_at', '<', ($year + 1 ). '-01-01');
 
-        return view('home', ['articles' => $articles]);
+        return view('home', ['articles' => $articles, 'blogsId' => $blogsId->toArray()]);
     }
 
     public function _list()

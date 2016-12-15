@@ -62,8 +62,24 @@
                         <?php $unseen = count(App\Message::where('id_recipient', Auth::id() )->where('recipient_deleted', null)->where('seen', null)->get());
                             if($unseen > 0) echo "($unseen)";
                         ?>
-                        </button></a>
 
+                        </button></a>
+                        
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            <?php $unseenN = count(App\Notification::where('id_user', Auth::id() )->where('seen', null)->get());
+                                if($unseenN > 0) echo "($unseenN)";
+                            ?></button>
+                            <div class="dropdown-menu">
+                                @foreach (App\Notification::where('id_user', Auth::id() )->where('seen', null)->get() as $notification)
+                                    <li><a class="dropdown-item" href="{{url($notification->url)}}"/><i class="fa fa-{{$notification->icon}}" aria-hidden="true"></i> {{$notification->content}}</a>   
+                                    </li>
+                                @endforeach
+                                     <li><a class="dropdown-item" href="{{url('/notification/clear')}}"/><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Clear notifications</a>   </li>
+                                    
+                            </div>
+                        </div>      
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,6 +110,7 @@
                                 </li>
                             </ul>
                         </li>
+
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

@@ -37,43 +37,6 @@
 </nav>
 @endif
 
-<form class="form-horizontal" role="form" method="POST" action="">
-  {{ csrf_field() }}
-  <div class="form-group">
-      <label for="category" class="col-md-4 control-label">Category</label>
-
-      <div class="col-md-4">
-           <select class="form-control" name="category">
-           <option value="0">All</option>
-                @foreach (App\Category::all() as $category)
-                  <option value="{{$category->id}}" 
-                  <?php isset($_POST['category']) && $_POST['category'] == $category->id && print('selected');?>>{{$category->name}}</option>    
-                @endforeach
-          </select>
-      </div>
-  </div>
-      <div class="form-group">
-       <label for="year" class="col-md-4 control-label">Year</label>
-      <div class="col-md-4">
-           <select class="form-control" name="year">
-           <option value="0">All</option>
-                <?php for($i=date("Y"); $i >= 2010; $i--): ?>
-                  <option value="{{$i}}"<?php isset($_POST['year']) && $_POST['year'] == $i && print('selected');?>>{{$i}}</option>
-                <?php endfor; ?>
-          </select>
-      </div>
-</div>
-
-  <div class="form-group">
-      <div class="col-md-6 col-md-offset-4">
-          <button type="submit" class="btn btn-primary">
-              <i class="fa fa-filter"></i> Filter
-          </button>
-      </div>
-  </div>
-
-</form>
-
 <div class="banner" style="color:blue;">
 	<img src="{{ URL::asset('files/'.$blog->banner)}}" class="img-fluid" alt="Responsive image">
 </div>
@@ -82,7 +45,7 @@
 	<div class="row">
 		<div class="col-md-12 col-md-offset-0">
 			<div class="panel panel-info">
-				<div class="panel-heading clearfix"><p><strong>{{$blog->title}}</strong> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</p></a> <em>{{$blog->description}}</em>
+				<div class="panel-heading clearfix"><p><strong><a href="{{ url('/'.$blog->id.'') }}"/>{{$blog->title}}</a></strong> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</p></a> <em>{{$blog->description}}</em>
 					@if($blog->id_author != Auth::id())
 					@if(!$isFollowed)
 					<a href="{{ url('/blog/share/'.$blog->id.'') }}" class="btn btn-primary pull-right" role="button"><i class="fa fa-share" aria-hidden="true"></i> Follow</a>
@@ -92,7 +55,6 @@
 					@endif   
 				</div>
 				<div class="panel-body">
-					@foreach ($articles as $k => $article)
 					<p><h2><a href="{{ url('/blog/'.$blog->id.'/read/'.$article->id.'') }}" >{{ $article->title }}</a></h2> {{ $article->created_at }} </p>
 					<p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
 					@if($article->id_blog != $blog->id)
@@ -105,8 +67,7 @@
                         @else
                             <a href="{{ URL::asset('files/'.$image->image)}}" download="{{$image->image}}">Download {{$image->image}}</a>       
                         @endif               
-					@endforeach
-
+					@endforeach   
 					<br/>
 					<div class="btn-group">
 						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -114,10 +75,10 @@
 						</button>
 						<div class="dropdown-menu">
 							@foreach (App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get() as $b)
-							@if($b->id != $blog->id)
-							<a class="dropdown-item" href="{{ url('blog/'. $b->id.'/article/share/'.$article->id) }}"/>{{$b->title}}</a>   
-							<div class="dropdown-divider"></div>
-							@endif        
+								@if($b->id != $blog->id)
+								<a class="dropdown-item" href="{{ url('blog/'. $b->id.'/article/share/'.$article->id) }}"/>{{$b->title}}</a>   
+								<div class="dropdown-divider"></div>
+								@endif        
 							@endforeach  
 						</div>
 					</div>
@@ -147,8 +108,7 @@
 					<br>                
 					@endforeach  
 
-					<?="<hr>" ?> 
-					@endforeach
+					<?="<hr>" ?>
 				</div>
 			</div>
 		</div>

@@ -13,6 +13,7 @@ use Input;
 use App\Blog;
 use App\Friend;
 use Auth;
+use App\Notification;
 
 class FriendController extends Controller
 {
@@ -30,8 +31,15 @@ class FriendController extends Controller
 		$f->id_user2 = $friend->id;
 		$check1 = Friend::where('id_user1', Auth::id() )->where('id_user2', $friend->id )->first();
 		$check2 = Friend::where('id_user2', Auth::id() )->where('id_user1', $friend->id )->first();
-		if(!count($check1) && !count($check2))
+		if(!count($check1) && !count($check2)){
        		$f->save();
+       		$notification = new Notification;
+       		$notification->id_user = $id;
+       		$notification->url = '/friend/list';
+       		$notification->icon = 'user';
+       		$notification->content = Auth::user()->name . ' added you as friend';
+       		$notification->save();
+		}
        	else
        		$info = "User already friended";
 		return redirect()->back()->with('info', $info);   
@@ -57,6 +65,18 @@ class FriendController extends Controller
 	{	
 		$friends = Friend::where('id_user1', Auth::id() )->orwhere('id_user2', Auth::id() )->get();
 		return view('friends', ['friends' => $friends]);
+	}
+
+	public function clearNotifications()
+	{	
+		$notifications = Notification::where('id_user', Auth::id())->get();
+		foreach($notifications as $notification){
+			$notif = Notification::find($notification->id);
+			$notif->seen = 1;
+			$notif->save();
+		}
+
+		return redirect()->back()->with('info', 'Notification cleared !');	
 	}
 
 }

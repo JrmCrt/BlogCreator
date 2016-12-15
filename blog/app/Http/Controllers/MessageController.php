@@ -12,6 +12,7 @@ use App\Message;
 use Input;
 use App\Blog;
 use Auth;
+use App\Notification;
 
 class MessageController extends Controller
 {
@@ -34,6 +35,14 @@ class MessageController extends Controller
         $message->id_recipient = $recipient->id;
         $message->text = Input::get('content');
         $message->save();
+
+        $notification = new Notification;
+        $notification->id_user = $id;
+        $notification->url = '/message/list';
+        $notification->icon = 'envelope';
+        $notification->content = 'New message from ' . Auth::user()->name;
+        $notification->save();
+
         return view('messagesend' , ['recipient' => $recipient, 'info' => 'Message sent']);
     }
 

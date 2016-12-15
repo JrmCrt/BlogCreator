@@ -110,4 +110,12 @@ class ArticleController extends Controller
         $image->destroy($image->id);
         return redirect()->back()->with('info', 'Image removed !');
     }
+
+    public function read($id_blog, $id)
+    {   
+        $article = Article::find($id);
+        $blog = Blog::find($id_blog);
+        $isFollowed = !is_null(SharedBlog::where('id_user', Auth::id())->where('id_blog', $id_blog)->first());
+        return view('article', ['blog' => $blog, 'article' => $article, 'isFollowed' => $isFollowed]);
+    }
 }

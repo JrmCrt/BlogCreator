@@ -127,12 +127,15 @@ class BlogController extends Controller
  
         //$articles = Article::whereIn('id_blog', SharedBlog::where('id_user', Auth::id())->select('id_blog')->get())->get(); 
         $blogsId = Sharedblog::where('id_user', Auth::id())->pluck('id_blog');
-        foreach($blogsId as $b){
-        	$bArticle = Article::where('id_blog', $b)->orWhereIn('id', 
-        		SharedArticle::where('id_blog', $b)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
-        	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
-        } 
-               
+        if(count($blogsId))
+	        foreach($blogsId as $b){
+	        	$bArticle = Article::where('id_blog', $b)->orWhereIn('id', 
+	        		SharedArticle::where('id_blog', $b)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
+	        	$articles = isset($articles) ? $articles->merge($bArticle)->sortByDesc('created_at') : $bArticle;
+	        }
+	    else
+	    	$articles = [];
+
         return view('home', ['articles' => $articles]);
     }
 

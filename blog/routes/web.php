@@ -33,6 +33,7 @@ Route::get('/blog/{id}/article/manage', 'BlogController@article');
 Route::get('/article/remove/{id}', 'BlogController@removeArticle');
 Route::get('/article/edit/{id}', 'ArticleController@editArticle');
 Route::post('/article/edit/{id}', 'ArticleController@doEdit');
+Route::get('/blog/{id_blog}/read/{id}', 'ArticleController@read');
 
 Route::get('/profile/{id}', 'UserController@profile');
 Route::post('/profile/{id}', 'UserController@updateProfile');
@@ -57,3 +58,5 @@ Route::get('/category/edit/{id}', 'CategoryController@edit');
 Route::post('/category/edit/{id}', 'CategoryController@doEdit');
 
 Route::get('/image/remove/{id}', 'ArticleController@removeImg');
+
+Route::get('/notification/clear/', 'FriendController@clearNotifications');

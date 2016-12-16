@@ -115,24 +115,47 @@ class BlogController extends Controller
 
     public function removeComment($id)
     {	
+    	$author = DB::table('comments')
+            ->join('articles', 'articles.id', '=', 'comments.id_article')
+            ->join('blogs', 'blogs.id', '=', 'articles.id_blog')
+            ->join('users', 'users.id', '=', 'blogs.id_author')
+            ->select('users.id')
+            ->where('comments.id', $id)
+            ->pluck('users.id')
+            ->toArray();
+            
+        if(empty($author))
+        	return redirect()->back()->with('info', 'Permission denied !');
+
+        $author = $author[0];
+        if($author != Auth::id())
+        	return redirect()->back()->with('info', 'Permission denied !');
+
     	$comment = Comment::find($id);
     	$comment->destroy($comment->id);
+
     	return redirect()->back()->with('info', 'Comment removed !');
     }
 
     public function article($id)
     {	
-    	$articles = Article::where('id_blog', $id)->get();
+    	$articles = Article::where('id_blog', $id)->orWhereIn('id', 
+        		SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
     	$blog = Blog::find($id);
     	if($blog->id_author != Auth::id())
     		return redirect()->back()->with('info', 'Permission denied !');
 
-    	return view('articles', ['articles' => $articles]);
+    	//$sharedArticles = Article::whereIn('id', SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get()->toArray();
+  
+    	return view('articles', ['articles' => $articles, 'blog' => $blog]);
     }
 
     public function removeArticle($id)
     {	
     	$article = Article::find($id);
+    	if($article->id_author != Auth::id())
+    		return redirect()->back()->with('info', 'Permission denied !');
+
     	$article->destroy($article->id);
     	return redirect()->back()->with('info', 'Article removed !');
     }

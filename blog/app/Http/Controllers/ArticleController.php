@@ -93,6 +93,18 @@ class ArticleController extends Controller
         return redirect()->back()->with('info', 'Article shared !');
     }
 
+    public function unShare($id_blog, $id)
+    {   
+        $blog = Blog::find($id_blog);
+        if($blog->id_author != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');
+
+        $sharedArticle = SharedArticle::find($id);
+        $sharedArticle->destroy($sharedArticle->id);
+
+        return redirect()->back()->with('info', 'Article unshared !');
+    }
+
     public function addComment($id)
     {   
         $comment = new Comment;
@@ -118,8 +130,11 @@ class ArticleController extends Controller
     public function editArticle($id)
     {   
         $article = Article::find($id);
-         if(is_null($article))
+        if(is_null($article))
             return redirect()->back()->with('info', 'No article found !');
+
+        if($article->id_author != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');
 
         return view('articleedit', ['article' => $article]);
     }

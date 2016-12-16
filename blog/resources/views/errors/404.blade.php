@@ -27,7 +27,6 @@
                 <div class="panel-heading">404 Error</div>
                 <div class="panel-body">
                     <p>Nothing here, make sure you got the right URL.</p>
-
                 </div>
             </div>
         </div>

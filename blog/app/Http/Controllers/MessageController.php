@@ -61,6 +61,9 @@ class MessageController extends Controller
     public function remove($id)
     {   
         $message = Message::find($id);
+        if($message->id_recipient != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');    
+
         $message->recipient_deleted = 1;
         $message->save();
         return redirect()->back()->with('info', 'Message removed !');
@@ -69,6 +72,9 @@ class MessageController extends Controller
     public function removeSent($id)
     {   
         $message = Message::find($id);
+        if($message->id_sender != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');    
+
         $message->sender_deleted = 1;
         $message->save();
         return redirect()->back()->with('info', 'Message removed !');

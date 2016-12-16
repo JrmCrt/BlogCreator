@@ -50,6 +50,7 @@ Route::get('/friend/add/{id}', 'FriendController@add');
 Route::get('/friend/remove/{id}', 'FriendController@remove');
 
 Route::get('/blog/{id_blog}/article/share/{id}', 'ArticleController@share');
+Route::get('/blog/{id_blog}/article/unshare/{id}', 'ArticleController@unShare');
 Route::post('/article/comment/{id}', 'ArticleController@addComment');
 
 Route::get('/category/manage', 'CategoryController@index');

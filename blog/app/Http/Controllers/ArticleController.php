@@ -142,6 +142,9 @@ class ArticleController extends Controller
     public function doEdit($id)
     {   
         $article = Article::find($id);
+        if($article->id_author != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !');
+
         $article->title = Input::get('title');
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
@@ -165,6 +168,10 @@ class ArticleController extends Controller
     public function removeImg($id)
     {   
         $image = Image::find($id);
+        $article = Article::find($image->id_article);
+        if($article->id_author != Auth::id())
+            return redirect()->back()->with('info', 'Permission denied !'); 
+
         $image->destroy($image->id);
         return redirect()->back()->with('info', 'Image removed !');
     }

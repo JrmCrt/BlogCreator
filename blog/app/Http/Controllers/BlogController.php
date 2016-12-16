@@ -131,7 +131,6 @@ class BlogController extends Controller
         if($author != Auth::id())
         	return redirect()->back()->with('info', 'Permission denied !');
 
-
     	$comment = Comment::find($id);
         $article = Article::find($comment->id_article);
         $blog = Blog::find($article->id_blog);

@@ -27,7 +27,7 @@
                 <div class="panel-heading clearfix">Blogs </div>
                 <div class="panel-body">
                   @foreach($allBlogs as $k => $b)
-                    <p><a href="{{ url(''.$b->id.'') }}" > {{ App\Blog::find($b->id)->title}}</a> by <a href="{{ url('profile/'.$b->id_author) }}"/>{{App\User::Find($b->id_author)->name}}</a></p>
+                    <p><a href="{{ url(''.$b->id.'') }}" > {{ App\Blog::find($b->id)->title}}</a> by <a href="{{ url('profile/'.$b->id_author) }}"/>{{App\User::Find($b->id_author)->name}}</a> created at {{$b->created_at}}</p>
                     
                     <?php $k != count($allBlogs) - 1 && print("<hr>"); ?> 
                   @endforeach

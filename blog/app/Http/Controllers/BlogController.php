@@ -239,7 +239,7 @@ class BlogController extends Controller
 
     public function _list()
     {
-    	$allBlogs = Blog::all();
+    	$allBlogs = Blog::orderBy('created_at', 'DESC')->get();
     	return view('bloglist', ['allBlogs' => $allBlogs]);
     }
 

@@ -63,7 +63,21 @@ class MessageController extends Controller
         $message = Message::find($id);
         $message->recipient_deleted = 1;
         $message->save();
-        return view('messages', ['messages' => Message::where('id_recipient', Auth::id() )->where('recipient_deleted', null)->orderBy('created_at', 'desc')->get(), 'info' => 'Message removed']);
+        return redirect()->back()->with('info', 'Message removed !');
+    }
+
+    public function removeSent($id)
+    {   
+        $message = Message::find($id);
+        $message->sender_deleted = 1;
+        $message->save();
+        return redirect()->back()->with('info', 'Message removed !');
+    }
+
+    public function getMessagesSent()
+    {   
+        $messages = Message::where('id_sender', Auth::id() )->where('sender_deleted', null)->orderBy('created_at', 'desc')->get();
+        return view('messagessent', ['messages' => $messages]);
     }
     
 }

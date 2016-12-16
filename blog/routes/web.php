@@ -42,6 +42,8 @@ Route::get('/message/list', 'MessageController@getMessages');
 Route::get('/message/send/{id}', 'MessageController@send');
 Route::post('/message/send/{id}', 'MessageController@doSend');
 Route::get('/message/remove/{id}', 'MessageController@remove');
+Route::get('/message/remove/{id}/sent', 'MessageController@removeSent');
+Route::get('/message/list/sent', 'MessageController@getMessagesSent');
 
 Route::get('/friend/list', 'FriendController@getFriends');
 Route::get('/friend/add/{id}', 'FriendController@add');

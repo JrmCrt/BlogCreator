@@ -123,7 +123,7 @@ class BlogController extends Controller
             ->where('comments.id', $id)
             ->pluck('users.id')
             ->toArray();
-            
+
         if(empty($author))
         	return redirect()->back()->with('info', 'Permission denied !');
 
@@ -131,8 +131,20 @@ class BlogController extends Controller
         if($author != Auth::id())
         	return redirect()->back()->with('info', 'Permission denied !');
 
+
     	$comment = Comment::find($id);
+        $article = Article::find($comment->id_article);
+        $blog = Blog::find($article->id_blog);
     	$comment->destroy($comment->id);
+
+    	if($comment->id_user != Auth::id()){
+	    	$notification = new Notification;
+	       	$notification->id_user = $comment->id_user;
+	       	$notification->url = "blog/$blog->id/read/$article->id";
+	       	$notification->icon = 'times';
+	       	$notification->content = Auth::user()->name . ' has deleted your comment on ' . $article->title;
+	   		$notification->save();
+    	}
 
     	return redirect()->back()->with('info', 'Comment removed !');
     }
@@ -142,10 +154,9 @@ class BlogController extends Controller
     	$articles = Article::where('id_blog', $id)->orWhereIn('id', 
         		SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get();
     	$blog = Blog::find($id);
+
     	if($blog->id_author != Auth::id())
     		return redirect()->back()->with('info', 'Permission denied !');
-
-    	//$sharedArticles = Article::whereIn('id', SharedArticle::where('id_blog', $id)->select('id_article')->get())->orderBy('created_at', 'DESC')->get()->toArray();
   
     	return view('articles', ['articles' => $articles, 'blog' => $blog]);
     }

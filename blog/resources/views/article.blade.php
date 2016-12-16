@@ -56,7 +56,7 @@
 				</div>
 				<div class="panel-body">
 					<p><h2><a href="{{ url('/blog/'.$blog->id.'/read/'.$article->id.'') }}" >{{ $article->title }}</a></h2> {{ $article->created_at }} </p>
-					<p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category)->name}} </p>
+					<p><em>{{ $article->chapo }}</em> | {{App\Category::find($article->id_category) != null ? App\Category::find($article->id_category)->name : 'Unknown'}} </p>
 					@if($article->id_blog != $blog->id)
 					<p><em><strong>Shared from </strong></em><a href="{{ url(''.$article->id_blog.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
 					@endif

@@ -30,7 +30,7 @@
                         @if($article->id_blog == $blog->id)
                             <p><a href="{{ url('/profile/'.$article->id_author.'') }}"/>{{App\User::find($article->id_author)->name}}</a> | {{$article->created_at}}</p>
                             <p>{{$article->title}}</p>
-                            <p>{{$article->chapo}}</p>
+                            <p>{{$article->chapo}} | {{App\Category::find($article->id_category) != null ? App\Category::find($article->id_category)->name : 'Unknown'}} </p>
                             <p>{{$article->content}}</p>
                             <a href="{{ url('/article/remove/'.$article->id.'') }}" class="btn btn-danger" role="button"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             <a href="{{ url('/article/edit/'.$article->id.'') }}" class="btn btn-primary" role="button"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
@@ -38,7 +38,7 @@
                             <p><em><strong>Shared from </strong></em><a href="{{ url('/blog/'.$article->id_blog.'/read/'.$article->id.'') }}" > {{ App\Blog::find($article->id_blog)->title}}</a></p>
                             <p><a href="{{ url('/profile/'.$article->id_author.'') }}"/>{{App\User::find($article->id_author)->name}}</a> | {{$article->created_at}}</p>
                             <p>{{$article->title}}</p>
-                            <p>{{$article->chapo}}</p>
+                             <p>{{$article->chapo}} | {{App\Category::find($article->id_category) != null ? App\Category::find($article->id_category)->name : 'Unknown'}} </p>
                             <p>{{$article->content}}</p>
                             <a href="{{ url('/blog/'.$blog->id.'/article/unshare/'.$article->id) }}" class="btn btn-danger" role="button"><i class="fa fa-trash" aria-hidden="true"></i> Unshare</a>
                         @endif    

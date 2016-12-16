@@ -148,6 +148,7 @@ class ArticleController extends Controller
         $article->title = Input::get('title');
         $article->chapo = Input::get('chapo');
         $article->content = Input::get('content');
+        $article->id_category = Input::get('category');  
         $article->save();
 
         $images = Input::file('images');

@@ -76,7 +76,11 @@
                                     <li><a class="dropdown-item" href="{{url($notification->url)}}"/><i class="fa fa-{{$notification->icon}}" aria-hidden="true"></i> {{$notification->content}}</a>   
                                     </li>
                                 @endforeach
+                                @if($unseenN > 0)
                                      <li><a class="dropdown-item" href="{{url('/notification/clear')}}"/><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Clear notifications</a>   </li>
+                                @else
+                                     <li><a class="dropdown-item" href=""/><i class="fa fa-info-circle" aria-hidden="true"></i> No new notifications</a>   </li>
+                                @endif     
                                     
                             </div>
                         </div>      

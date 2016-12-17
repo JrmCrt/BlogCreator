@@ -273,4 +273,17 @@ class BlogController extends Controller
     	$blog->save();
     	return redirect()->back()->with('info', 'Blog updated !');
     }
+
+    public function delete($id)
+    {	
+    	$blog = Blog::find($id);
+    	if($blog->id_author != Auth::id())
+    		return redirect()->back()->with('info', 'Permission denied !');
+
+    	$blogArticles = Article::destroy(Article::where('id_blog', $id)->get()->toArray());
+    	$sharedBlog = Sharedblog::destroy(Sharedblog::where('id_blog', $id)->get()->toArray());
+    	$blog->destroy($blog->id);
+    			
+    	return redirect('home')->with('status', 'Blog deleted !');
+    }
 }

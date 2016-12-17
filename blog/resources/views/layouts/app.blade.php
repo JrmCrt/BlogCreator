@@ -85,6 +85,23 @@
                             </div>
                         </div>      
 
+                        @if(count(App\SharedBlog::where('id_user', Auth::id())->orderBy('created_at', 'asc')->get()))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-retweet" aria-hidden="true"></i> Subscriptions  <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">    
+                                @foreach (App\SharedBlog::where('id_user', Auth::id())->orderBy('created_at', 'asc')->get() as $sb)
+                                <li>
+                                    <a href="{{ url('/'.$sb->id_blog) }}"/>{{App\Blog::find($sb->id_blog)->title}}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        @endif
+
+                        @if(count(App\Blog::where('id_author', Auth::id())->orderBy('created_at', 'asc')->get()))
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <i class="fa fa-book" aria-hidden="true"></i> My Blogs  <span class="caret"></span>
@@ -98,7 +115,7 @@
                                 @endforeach
                             </ul>
                         </li>
-
+                        @endif
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

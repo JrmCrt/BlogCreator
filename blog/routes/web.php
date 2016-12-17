@@ -34,6 +34,7 @@ Route::get('/article/remove/{id}', 'BlogController@removeArticle');
 Route::get('/article/edit/{id}', 'ArticleController@editArticle');
 Route::post('/article/edit/{id}', 'ArticleController@doEdit');
 Route::get('/blog/{id_blog}/read/{id}', 'ArticleController@read');
+Route::get('/blog/delete/{id_blog}', 'BlogController@delete');
 
 Route::get('/profile/{id}', 'UserController@profile');
 Route::post('/profile/{id}', 'UserController@updateProfile');

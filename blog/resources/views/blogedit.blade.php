@@ -60,6 +60,11 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4 ">
+                            <a href="{{ url('/blog/delete/'.$blog->id) }}" class="btn btn-danger" role="button"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

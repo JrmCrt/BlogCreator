@@ -82,7 +82,7 @@
 	<div class="row">
 		<div class="col-md-12 col-md-offset-0">
 			<div class="panel panel-info">
-				<div class="panel-heading clearfix"><p><strong>{{$blog->title}}</strong> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</p></a> <em>{{$blog->description}}</em>
+				<div class="panel-heading clearfix"><p><h2>{{$blog->title}}</h2> by <a href="{{ url('profile/'.$blog->id_author) }}"/>{{App\User::Find($blog->id_author)->name}}</p></a> <em>{{$blog->description}}</em>
 					@if($blog->id_author != Auth::id())
 					@if(!$isFollowed)
 					<a href="{{ url('/blog/share/'.$blog->id.'') }}" class="btn btn-primary pull-right" role="button"><i class="fa fa-share" aria-hidden="true"></i> Follow</a>

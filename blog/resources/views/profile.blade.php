@@ -33,7 +33,7 @@
                         <p><strong>Email : </strong>{{ $user->email }}</p>
                         <p><strong>Blogs : </strong>
                         @foreach (App\Blog::where('id_author', $user->id)->orderBy('created_at', 'asc')->get() as $b)
-                                            <a href="{{ url('/'.$b->id.'') }}"/>{{$b->title}}</a>   
+                                            <p> - <a href="{{ url('/'.$b->id.'') }}"/>{{$b->title}}</a></p>   
                         @endforeach
                         </p>
 

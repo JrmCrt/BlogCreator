@@ -81,4 +81,15 @@ class FriendController extends Controller
 		return redirect()->back()->with('info', 'Notifications cleared !');	
 	}
 
+	public static function clearNotification()
+	{	
+		$id = Input::get('notification');
+		$notification = Notification::find($id);
+		
+		if(is_null($notification))
+			return false;
+
+		if($notification->id_user == Auth::id())
+			$notification->destroy($id);
+	}
 }

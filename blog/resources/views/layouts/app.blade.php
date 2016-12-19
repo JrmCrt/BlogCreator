@@ -23,6 +23,10 @@
             ]); ?>
     </script>
 </head>
+<?php
+    use App\Http\Controllers\FriendController;
+    FriendController::clearNotification();
+?>
 <body>
     <div id="app">
         <nav class="navbar navbar-inverse navbar-static-top">
@@ -73,7 +77,7 @@
                             ?></button>
                             <div class="dropdown-menu">
                                 @foreach (App\Notification::where('id_user', Auth::id() )->where('seen', null)->orderBy('created_at', 'DESC')->get() as $notification)
-                                    <li><a class="dropdown-item" href="{{url($notification->url)}}"/><i class="fa fa-{{$notification->icon}}" aria-hidden="true"></i> {{$notification->content}}</a>   
+                                    <li><a class="dropdown-item" href="{{url($notification->url . '?notification='.$notification->id)}}"/><i class="fa fa-{{$notification->icon}}" aria-hidden="true"></i> {{$notification->content}}</a>   
                                     </li>
                                 @endforeach
                                 @if($unseenN > 0)

@@ -33,7 +33,7 @@
                         <p><strong>Email : </strong>{{ $friend->email }}</p>
                         <p><strong>Blogs : </strong>
                         @foreach (App\Blog::where('id_author', $friend->id)->orderBy('created_at', 'asc')->get() as $b)
-                                            <a href="{{ url('/'.$b->id.'') }}"/>{{$b->title}}</a>   
+                                            <p> - <a href="{{ url('/'.$b->id.'') }}"/>{{$b->title}}</a></p>   
                         @endforeach
                         <?php $k != count($friends) - 1 && print("<hr>") ; ?> 
                    <?php endforeach; ?>

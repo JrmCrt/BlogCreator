@@ -1,4 +1,5 @@
 1 - configurer .env comme ceci :
+En cas d'erreur -> DH_HOST = localhost 
 
 APP_ENV=local
 APP_KEY=base64:IP3erTdnxAJn/sdTluVlrrWREWkN+YIk7VrSy6bo7kw=
@@ -37,3 +38,5 @@ PUSHER_SECRET=
 
 3 - Il est possible qu'il soit nécessaire de regenerer une clef, dans ce cas entrer la commande suivante :
 	php artisan key:generate
+
+4 - Composer install 

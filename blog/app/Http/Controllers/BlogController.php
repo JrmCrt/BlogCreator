@@ -35,7 +35,8 @@ class BlogController extends Controller
     	$blog =  new Blog;
     	$blog->title = Input::get('title');
     	$blog->description = Input::get('description');
-    	if(!empty(Input::file('banner')) )
+
+    	if(!empty(Input::file('banner')))
     	{
     		$file = Input::file('banner'); 
     		$fName = Input::file('banner')->getClientOriginalName();
@@ -43,6 +44,8 @@ class BlogController extends Controller
 			$file->move($destinationPath, $fName); 
 			$blog->banner = $fName;
     	}
+
+    	else $blog->banner = Blog::whereNotNull('banner')->first();
 
     	$blog->id_author = Auth::id();
     	$blog->save();

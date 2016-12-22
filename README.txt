@@ -48,3 +48,5 @@ PUSHER_SECRET=
 	2 - Décommenter l'include de vhost dans wamp/bin/apache/apache{version}/conf/extra dans httpd.conf
 
 	3 - Ouvrir wamp/bin/apache/apache{version}/conf/extra/httpd-vhosts.conf et ajouter le vhosts en se basant su l'exemple
+
+? git clone https://gitlab.com/jrmcrt/blogCreator.git

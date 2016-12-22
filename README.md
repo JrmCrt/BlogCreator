@@ -33,4 +33,7 @@ PUSHER_APP_ID=
 PUSHER_KEY=
 PUSHER_SECRET=
 
-2 - 
+2 - Installer la base de donnée
+
+3 - Il est possible qu'il soit nécessaire de regenerer une clef, dans ce cas entrer la commande suivante :
+	php artisan key:generate

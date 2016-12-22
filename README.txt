@@ -1,5 +1,5 @@
 1 - configurer .env comme ceci :
-En cas d'erreur -> DH_HOST = localhost 
+En cas d'erreur -> DB_HOST = localhost 
 
 APP_ENV=local
 APP_KEY=base64:IP3erTdnxAJn/sdTluVlrrWREWkN+YIk7VrSy6bo7kw=
@@ -39,4 +39,14 @@ PUSHER_SECRET=
 3 - Il est possible qu'il soit nécessaire de regenerer une clef, dans ce cas entrer la commande suivante :
 	php artisan key:generate
 
-4 - Composer install 
+4 - Composer install
+
+5 - Mise en place du vHost
+
+	1 - ajouter un alias dans C:/Windows/System32/Drivers/etc/hosts 
+
+	2 - Décommenter l'include de vhost dans wamp/bin/apache/apache{version}/conf/extra dans httpd.conf
+
+	3 - Ouvrir wamp/bin/apache/apache{version}/conf/extra/httpd-vhosts.conf et ajouter le vhosts en se basant su l'exemple
+
+? git clone https://gitlab.com/jrmcrt/blogCreator.git

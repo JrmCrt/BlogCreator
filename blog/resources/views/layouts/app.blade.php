@@ -13,8 +13,6 @@
     <!-- Styles -->
     <link href="{{ URL::asset('dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
-   {{--  <link href="{{ URL::asset('summernote/summernote.css')}}" rel="stylesheet"> --}}
 
     <!-- Scripts -->
     <script>
@@ -173,14 +171,6 @@
 {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> --}}
 <script src="{{ URL::asset('js/jquery.js')}}"></script>
 <script src="{{ URL::asset('js/app.js')}}"></script>
-{{-- <script src="{{ URL::asset('dist/js/bootstrap.min.js')}}"></script> --}}
-{{-- <script src="https://use.fontawesome.com/d5b4247fd9.js"></script> --}}
 <script src="{{ URL::asset('js/fontawesome.js')}}"></script>
-<script src="{{ URL::asset('summernote/summernote.min.js')}}"></script>
-<script>
-    $(document).ready(function() {
-        $('#summernote').summernote();
-    });
-</script>
 </body>
 </html>

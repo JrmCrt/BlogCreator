@@ -1,6 +1,7 @@
 Blog Creator
 ======
 A website allowing you to create and manage blogs, made with Laravel.  
+&nbsp;  
 1 - Import database
 
 2 - Setup .env file (use .env.example)
